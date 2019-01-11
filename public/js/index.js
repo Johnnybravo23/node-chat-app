@@ -1,4 +1,4 @@
-var socket = io();
+ var socket = io();
 
 socket.on('connect', function ()  {
 	console.log('Connected to server');
@@ -9,20 +9,20 @@ socket.on('disconnect', function ()  {
 });
 
 socket.on('newMessage', function (message) {
-	console.log('newMessage', message);
+	var formattedTime = moment(message.createdAt).format('h:mm a');
 	var li = jQuery('<li></li>');
-	li.text(`${message.from}: ${message.text}`);
+	li.text(`${message.from} ${formattedTime}: ${message.text}`);
 
 	jQuery('#messages').append(li);
 });
 
 // adding the event listener
 socket.on('newLocationMessage', function (message) {
-	//generating the doc element
+	var formattedTime = moment(message.createdAt).format('h:mm a');
 	var li = jQuery('<li></li>');
 	var a = jQuery('<a target="_blank">My current location</a>');
 	//setting some properties on the attributes
-	li.text(`${message.from}: `);
+	li.text(`${message.from} ${formattedTime}: `);
 	//updating the anchor tag
 	a.attr('href', message.url);
 	//appending
